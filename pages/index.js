@@ -43,12 +43,12 @@ export default function Home() {
         {cardList.map((card) => {
           return (
             <Card
-              key={card.id}
+              key={card._id}
               name={card.name}
               text={card.text}
               onRemoveCard={handleRemoveCard}
               onUpdateCard={handleUpdateCard}
-              id={card.id}
+              id={card._id}
             />
           );
         })}

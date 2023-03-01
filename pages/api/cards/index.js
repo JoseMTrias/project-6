@@ -6,7 +6,17 @@ export default async function handler(request, response) {
 
   if (request.method === "GET") {
     const cards = await Card.find();
-    console.log("inside fetch api/cards", cards);
     return response.status(200).json(cards);
+  }
+
+  if (request.method === "POST") {
+    try {
+      const cardData = request.body;
+      const card = new Card(cardData);
+      await card.save();
+      response.status(201).json(card);
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
