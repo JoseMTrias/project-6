@@ -2,14 +2,14 @@ import {
   RiDeleteBinLine,
   RiPencilLine,
   RiCheckboxCircleLine,
-} from 'react-icons/ri';
-import styled from 'styled-components';
-import { useState } from 'react';
+} from "react-icons/ri";
+import styled from "styled-components";
+import { useState } from "react";
 
 export default function Card({ name, text, onRemoveCard, onUpdateCard, id }) {
   const [isEditing, setIsEditing] = useState(false);
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
     const formElements = event.target.elements;
 
@@ -18,6 +18,19 @@ export default function Card({ name, text, onRemoveCard, onUpdateCard, id }) {
       name: formElements.name.value,
       id: id,
     };
+    const response = await fetch(`/api/cards/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(updatedCard),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (response.ok) {
+      await response.json();
+    } else {
+      console.error(`Error: ${response.status}`);
+    }
+
     onUpdateCard(updatedCard);
     setIsEditing(false);
   }
