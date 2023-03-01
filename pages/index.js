@@ -6,22 +6,18 @@ import Form from "../components/Form";
 
 export default function Home() {
   const [cardList, setCardList] = useState([]);
-
-  async function getServerSideProps() {
-    // Fetch data from external API
-    const res = await fetch(`/api/cards`);
-    const data = await res.json();
-    console.log("inside getServerSideProps", data);
-    // Pass data to the page via props
-    //return { props: { data } };
-  }
-
+  let cards;
   useEffect(() => {
     fetch("/api/cards")
       .then((res) => res.json())
-      .then((data) => console.log(data));
-  });
-  //getServerSideProps();
+      .then((data) => (cards = data))
+      .then(() => {
+        console.log("index.js", cards);
+      })
+      .then(() => {
+        setCardList(cards);
+      });
+  }, []);
 
   function addCard(newCard) {
     setCardList([newCard, ...cardList]);
