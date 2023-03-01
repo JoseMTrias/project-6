@@ -23,7 +23,11 @@ export default function Home() {
     setCardList([newCard, ...cardList]);
   }
 
-  function handleRemoveCard(id) {
+  async function handleRemoveCard(id) {
+    await fetch(`/api/cards/${id}`, {
+      method: "DELETE",
+    });
+
     setCardList(cardList.filter((card) => card.id !== id));
   }
 

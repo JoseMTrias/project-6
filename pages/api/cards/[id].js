@@ -16,4 +16,12 @@ export default async function handler(request, response) {
       response.status(400).json({ error: error.message });
     }
   }
+  if (request.method === "DELETE") {
+    try {
+      const cardToDelete = await Card.findByIdAndDelete(id);
+      return response.status(200).json(cardToDelete);
+    } catch {
+      console.error(`Error: ${response.status}`);
+    }
+  }
 }
