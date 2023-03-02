@@ -1,23 +1,23 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import styled from "styled-components";
-import Card from "../components/Card";
-import Form from "../components/Form";
+import styled from 'styled-components';
+import Card from '../components/Card';
+import Form from '../components/Form';
 
 export default function Home() {
   const [cardList, setCardList] = useState([]);
   let cards;
   useEffect(() => {
-    fetch("/api/cards")
+    fetch('/api/cards')
       .then((res) => res.json())
       .then((data) => (cards = data))
       .then(() => {
-        console.log("index.js", cards);
+        // console.log('index.js', cards);
       })
       .then(() => {
         setCardList(cards);
       });
-  }, []);
+  }, [cardList]);
 
   function addCard(newCard) {
     setCardList([newCard, ...cardList]);
@@ -25,7 +25,7 @@ export default function Home() {
 
   async function handleRemoveCard(id) {
     await fetch(`/api/cards/${id}`, {
-      method: "DELETE",
+      method: 'DELETE',
     });
 
     setCardList(cardList.filter((card) => card.id !== id));
@@ -47,7 +47,7 @@ export default function Home() {
         {cardList.map((card) => {
           return (
             <Card
-              key={card._id}
+              key={card.name}
               name={card.name}
               text={card.text}
               onRemoveCard={handleRemoveCard}
